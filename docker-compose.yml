@@ -1,0 +1,21 @@
+services:
+  db:
+      image: mariadb:11
+      restart: unless-stopped
+      container_name: picdash-db
+      environment:
+        MARIADB_ROOT_PASSWORD: rootpass
+        MARIADB_DATABASE: picdash
+        MARIADB_USER: picdash_user
+        MARIADB_PASSWORD: secretpass
+      ports:
+        - "3306:3306"
+      volumes:
+        - ./backend/init:/docker-entrypoint-initdb.d
+        - ./picdash-db:/var/lib/mysql
+  
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
